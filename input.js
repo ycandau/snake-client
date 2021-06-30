@@ -38,6 +38,14 @@ const handleUserInput = (ch) => {
     case 'd':
       dir = 'right'
       break
+    case '?':
+      return connection.write('Say: Who am I?')
+    case '~':
+      return connection.write('Say: I am sinuous!')
+    case '>':
+      return connection.write('Say: Catch me if you can.')
+    case 'O':
+      return connection.write('Say: Ouroboros')
     case '\u0003':
       console.log('Ending game.')
       return process.exit()
