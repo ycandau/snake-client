@@ -1,4 +1,5 @@
 const { stdin } = require('process')
+const { INTERVAL, DIRECTIONS, MESSAGES } = require('./constants')
 
 // Connection object from the client module
 let connection
@@ -21,34 +22,15 @@ const setupInput = (conn) => {
 let dir = 'up'
 
 // Schedule repeated move messages to the server
-setInterval(() => connection.write('Move: ' + dir), 50)
+setInterval(() => connection.write('Move: ' + dir), INTERVAL)
 
 // Handle user keyboard srokes
 const handleUserInput = (ch) => {
-  switch (ch) {
-    case 'w':
-      dir = 'up'
-      break
-    case 'a':
-      dir = 'left'
-      break
-    case 's':
-      dir = 'down'
-      break
-    case 'd':
-      dir = 'right'
-      break
-    case '?':
-      return connection.write('Say: Who am I?')
-    case '~':
-      return connection.write('Say: I am sinuous!')
-    case '>':
-      return connection.write('Say: Catch me if you can.')
-    case 'O':
-      return connection.write('Say: Ouroboros')
-    case '\u0003':
-      console.log('Ending game.')
-      return process.exit()
+  if (ch in DIRECTIONS) return (dir = DIRECTIONS[ch])
+  if (ch in MESSAGES) return connection.write('Say: ' + MESSAGES[ch])
+  if (ch === '\u0003') {
+    console.log('Ending game.')
+    return process.exit()
   }
 }
 
